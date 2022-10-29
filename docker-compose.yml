@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+    app:
+        build: .
+        container_name: dummy_email_app
+        hostname: app
+        ports:
+            - 8081:8081
+            - 5005:5005
+
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        hostname: prometheus
+        volumes:
+            - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+        ports:
+            - 9090:9090
+        depends_on:
+            - app
+
+    grafana:
+        image: grafana/grafana
+        container_name: grafana
+        hostname: grafana
+        volumes:
+            - ./grafana/provisioning/:/etc/grafana/provisioning/
+        env_file:
+            - grafana/config.monitoring
+        ports:
+            - 3000:3000
+        depends_on:
+            - prometheus

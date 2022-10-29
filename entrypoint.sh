@@ -1,0 +1,2 @@
+# If you want Java to wait for you to connect before executing the application, replace suspend=n with suspend=y
+java -jar app.jar -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
